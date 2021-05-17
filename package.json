@@ -1,8 +1,5 @@
 {
-  "name": "rescript-nextjs-template",
-  "version": "1.0.0",
-  "author": "Patrick Stapfer <ryyppy@users.noreply.github.com>",
-  "license": "Apache License 2.0",
+  "name": "memo",
   "dependencies": {
     "next": "10.2.0",
     "react": "^16.13.1",
