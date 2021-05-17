@@ -1,0 +1,67 @@
+id,name,testament
+1,Genesis,OT
+2,Exodus,OT
+3,Leviticus,OT
+4,Numbers,OT
+5,Deuteronomy,OT
+6,Joshua,OT
+7,Judges,OT
+8,Ruth,OT
+9,1 Samuel,OT
+10,2 Samuel,OT
+11,1 Kings,OT
+12,2 Kings,OT
+13,1 Chronicles,OT
+14,2 Chronicles,OT
+15,Ezra,OT
+16,Nehemiah,OT
+17,Esther,OT
+18,Job,OT
+19,Psalms,OT
+20,Proverbs,OT
+21,Ecclesiastes,OT
+22,Song of Solomon,OT
+23,Isaiah,OT
+24,Jeremiah,OT
+25,Lamentations,OT
+26,Ezekiel,OT
+27,Daniel,OT
+28,Hosea,OT
+29,Joel,OT
+30,Amos,OT
+31,Obadiah,OT
+32,Jonah,OT
+33,Micah,OT
+34,Nahum,OT
+35,Habakkuk,OT
+36,Zephaniah,OT
+37,Haggai,OT
+38,Zechariah,OT
+39,Malachi,OT
+40,Matthew,NT
+41,Mark,NT
+42,Luke,NT
+43,John,NT
+44,Acts,NT
+45,Romans,NT
+46,1 Corinthians,NT
+47,2 Corinthians,NT
+48,Galatians,NT
+49,Ephesians,NT
+50,Philippians,NT
+51,Colossians,NT
+52,1 Thessalonians,NT
+53,2 Thessalonians,NT
+54,1 Timothy,NT
+55,2 Timothy,NT
+56,Titus,NT
+57,Philemon,NT
+58,Hebrews,NT
+59,James,NT
+60,1 Peter,NT
+61,2 Peter,NT
+62,1 John,NT
+63,2 John,NT
+64,3 John,NT
+65,Jude,NT
+66,Revelation,NT
