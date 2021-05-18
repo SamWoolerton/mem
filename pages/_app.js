@@ -1,4 +1,4 @@
-import 'styles/main.css'
+import "styles/main.css"
 
 // Note:
 // Just renaming $$default to ResApp alone
@@ -6,6 +6,7 @@ import 'styles/main.css'
 // React component, since an alias isn't attached
 // to the original React component function name.
 import ResApp from "src/App.mjs"
+import HeadMeta from "../src/utility/HeadMeta"
 
 // Note:
 // We need to wrap the make call with
@@ -15,5 +16,10 @@ import ResApp from "src/App.mjs"
 // If you don't do this, your Fast-Refresh will
 // not work!
 export default function App(props) {
-  return <ResApp {...props}/>;
+  return (
+    <div>
+      <HeadMeta />
+      <ResApp {...props} />
+    </div>
+  )
 }

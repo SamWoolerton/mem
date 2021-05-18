@@ -9,26 +9,21 @@ function $$default(props) {
   var content = React.createElement(props.Component, props.pageProps);
   var match = router.route;
   if (match === "/examples") {
-    return React.createElement(
-      MainLayout.make,
-      {
-        children: null,
-      },
-      React.createElement(
-        "h1",
-        {
-          className: "font-bold",
-        },
-        "Examples Section"
-      ),
-      React.createElement("div", undefined, content)
-    );
+    return React.createElement(MainLayout.make, {
+                children: null
+              }, React.createElement("h1", {
+                    className: "font-bold"
+                  }, "Examples Section"), React.createElement("div", undefined, content));
   } else {
     return React.createElement(MainLayout.make, {
-      children: content,
-    });
+                children: content
+              });
   }
 }
 
-export { $$default, $$default as default };
+export {
+  $$default ,
+  $$default as default,
+  
+}
 /* react Not a pure module */

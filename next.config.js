@@ -1,8 +1,9 @@
-const bsconfig = require('./bsconfig.json');
-const fs = require("fs");
+const bsconfig = require("./bsconfig.json")
+const fs = require("fs")
+const withPWA = require("next-pwa")
 
-const transpileModules = ["rescript"].concat(bsconfig["bs-dependencies"]);
-const withTM = require("next-transpile-modules")(transpileModules);
+const transpileModules = ["rescript"].concat(bsconfig["bs-dependencies"])
+const withTM = require("next-transpile-modules")(transpileModules)
 
 // There is an issue where webpack doesn't detect npm packages within node_modules when
 // there is no dedicated package.json "main" entry + index.js file existent.
@@ -12,19 +13,19 @@ const withTM = require("next-transpile-modules")(transpileModules);
 // This will eventually be removed at some point, so keep an eye out for updates
 // on our template repository.
 function patchResDeps() {
-  ["rescript"].concat(bsconfig["bs-dependencies"]).forEach((bsDep) => {
-    fs.writeFileSync(`./node_modules/${bsDep}/index.js`, "");
-    const json = require(`./node_modules/${bsDep}/package.json`);
-    json.main = "index.js";
+  ;["rescript"].concat(bsconfig["bs-dependencies"]).forEach(bsDep => {
+    fs.writeFileSync(`./node_modules/${bsDep}/index.js`, "")
+    const json = require(`./node_modules/${bsDep}/package.json`)
+    json.main = "index.js"
     fs.writeFileSync(
       `./node_modules/${bsDep}/package.json`,
       JSON.stringify(json, null, 2)
-    );
-  });
+    )
+  })
 }
-patchResDeps(); // update package.json and create empty `index.js` before transpiling
+patchResDeps() // update package.json and create empty `index.js` before transpiling
 
-const isWebpack5 = true;
+const isWebpack5 = true
 const config = {
   target: "serverless",
   pageExtensions: ["jsx", "js"],
@@ -32,7 +33,7 @@ const config = {
     ENV: process.env.NODE_ENV,
   },
   webpack: (config, options) => {
-    const { isServer } = options;
+    const { isServer } = options
 
     if (isWebpack5) {
       if (!isServer) {
@@ -41,7 +42,7 @@ const config = {
         config.resolve.fallback = {
           fs: false,
           path: false,
-        };
+        }
       }
 
       // We need this additional rule to make sure that mjs files are
@@ -53,14 +54,17 @@ const config = {
         type: "javascript/auto",
         resolve: {
           fullySpecified: false,
-        }
-      });
+        },
+      })
     }
     return config
   },
   future: {
-    webpack5: isWebpack5
-  }
-};
+    webpack5: isWebpack5,
+  },
+}
 
-module.exports = withTM(config);
+module.exports = withPWA({
+  pwa: { dest: "public", disable: true },
+  ...withTM(config),
+})

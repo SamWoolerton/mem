@@ -1,11 +1,5 @@
 {
   "name": "memo",
-  "dependencies": {
-    "@supabase/supabase-js": "^1.11.13",
-    "next": "10.2.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
-  },
   "scripts": {
     "dev": "next",
     "debug": "NODE_OPTIONS='--inspect' next",
@@ -16,6 +10,13 @@
     "res:build": "rescript",
     "res:clean": "rescript clean",
     "res:start": "rescript build -w"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^1.11.13",
+    "next": "10.2.0",
+    "next-pwa": "^5.2.21",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@rescript/react": "^0.10.1",
