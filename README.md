@@ -4,6 +4,8 @@ An open-source Bible memory verse app, built on ReScript, NextJS and Supabase.
 
 ## Development
 
+Rename `sample.env` to `.env` and enter valid config values.
+
 Run ReScript in dev mode:
 
 ```
@@ -31,3 +33,4 @@ This work builds on the shoulders of giants. Particularly useful sources were:
 - [ReScript/NextJS starter](https://github.com/ryyppy/rescript-nextjs-template)
 - [Supabase](https://supabase.io/)
 - [Bible databases repo](https://github.com/scrollmapper/bible_databases) for the KJV in CSV format
+- [Verses app](https://www.getverses.com/) for the inspiration to create a Bible app, and doing a great job! Heavily inspired initial UI and core functionality

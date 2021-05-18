@@ -2,9 +2,9 @@ const { createClient } = require("@supabase/supabase-js")
 
 async function main() {
   const supabase = createClient(
-    "https://fismpnesaaiuvklctjqh.supabase.co",
+    "https://fohzkjgbdfvwyebncwoc.supabase.co",
     // public anon key so safe to commit to Git
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTIzNTMwNCwiZXhwIjoxOTM2ODExMzA0fQ.stWtUi-RZS9dDN3aRctpDgpsMQpn5kcEez2zfqkb_t8"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTMxNjk4MywiZXhwIjoxOTM2ODkyOTgzfQ.iWihw5UJztoCkP7njCcaqoVcAlPxZzo606yjY9-R0N4"
   )
 
   const res = await supabase.from("Passages").select(`
