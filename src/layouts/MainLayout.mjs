@@ -12,29 +12,18 @@ function MainLayout$Navigation(Props) {
                         className: "flex items-center w-1/3"
                       }, React.createElement("img", {
                             className: "w-5",
-                            src: "/static/zeit-black-triangle.svg"
+                            src: "/static/mem.svg"
                           }), React.createElement("span", {
                             className: "text-xl ml-2 align-middle font-semibold"
-                          }, "Next", React.createElement("span", {
-                                className: "text-orange-800"
-                              }, " + ReScript")))
+                          }, "Mem"))
                 }), React.createElement("div", {
                   className: "flex w-2/3 justify-end"
                 }, React.createElement(Link, {
                       href: "/",
                       children: React.createElement("a", {
                             className: "px-3"
-                          }, "Home")
-                    }), React.createElement(Link, {
-                      href: "/examples",
-                      children: React.createElement("a", {
-                            className: "px-3"
-                          }, "Examples")
-                    }), React.createElement("a", {
-                      className: "px-3 font-bold",
-                      href: "https://github.com/ryyppy/nextjs-default",
-                      target: "_blank"
-                    }, "Github")));
+                          }, "Passages")
+                    })));
 }
 
 function MainLayout(Props) {
