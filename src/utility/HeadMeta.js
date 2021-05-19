@@ -3,6 +3,8 @@ import Head from "next/head"
 export default function HeadMeta(props) {
   return (
     <Head>
+      <title>Mem: Memorise Bible verses quickly and easily</title>
+
       <meta name="application-name" content="Mem" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
