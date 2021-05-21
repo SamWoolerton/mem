@@ -1,4 +1,4 @@
-import IndexRes from "src/Index.mjs";
+import Res from "src/Index.mjs"
 
 // Note:
 // We need to wrap the make call with
@@ -7,6 +7,6 @@ import IndexRes from "src/Index.mjs";
 //
 // If you don't do this, your Fast-Refresh will
 // not work!
-export default function Index(props) {
-  return <IndexRes {...props}/>;
+export default function Component(props) {
+  return <Res {...props} />
 }
