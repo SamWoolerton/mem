@@ -6,6 +6,12 @@ An open-source Bible memory verse app, built on ReScript, NextJS and Supabase.
 
 Rename `sample.env` to `.env` and enter valid config values.
 
+Install ReScript:
+
+```
+npm install rescript
+```
+
 Run ReScript in dev mode:
 
 ```
