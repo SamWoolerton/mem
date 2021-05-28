@@ -7,14 +7,11 @@ module GetServerSideProps = {
     type t
 
     @send external setHeader: (t, string, string) => unit = "setHeader"
-
     @send external write: (t, string) => unit = "write"
-
     @send external end: t => unit = "end"
   }
 
   // See: https://github.com/zeit/next.js/blob/canary/packages/next/types/index.d.ts
-
   type context<'props, 'params, 'previewData> = {
     params: Js.t<'params>,
     query: Js.Dict.t<string>,
@@ -25,15 +22,11 @@ module GetServerSideProps = {
   }
 
   // The definition of a getServerSideProps function
-
-  type t<'props, 'params, 'previewData> = context<'props, 'params, 'previewData> => Js.Promise.t<{
-    "props": 'props,
-  }>
+  type t<'props, 'params, 'previewData> = context<'props, 'params, 'previewData> => Js.Promise.t<{"props": 'props}>
 }
 
 module GetStaticProps = {
   // See: https://github.com/zeit/next.js/blob/canary/packages/next/types/index.d.ts
-
   type context<'props, 'params, 'previewData> = {
     params: 'params,
     preview: option<bool>, // preview is true if the page is in the preview mode and undefined otherwise.
@@ -41,7 +34,6 @@ module GetStaticProps = {
   }
 
   // The definition of a getStaticProps function
-
   type t<'props, 'params, 'previewData> = context<'props, 'params, 'previewData> => Js.Promise.t<{
     "props": 'props,
   }>
@@ -49,9 +41,7 @@ module GetStaticProps = {
 
 module GetStaticPaths = {
   // 'params: dynamic route params used in dynamic routing paths
-
   // Example: pages/[id].js would result in a 'params = { id: string }
-
   type path<'params> = {params: 'params}
 
   type return<'params> = {
@@ -60,7 +50,6 @@ module GetStaticPaths = {
   }
 
   // The definition of a getStaticPaths function
-
   type t<'params> = unit => Js.Promise.t<return<'params>>
 }
 
@@ -78,10 +67,9 @@ module Link = {
 }
 
 module Router = {
-  /* 
+  /*
       Make sure to only register events via a useEffect hook!
  */
-
   module Events = {
     type t
 
@@ -122,13 +110,11 @@ module Router = {
   }
 
   @send external push: (router, string) => unit = "push"
-
   @send external pushObj: (router, pathObj) => unit = "push"
 
   @module("next/router") external useRouter: unit => router = "useRouter"
 
   @send external replace: (router, string) => unit = "replace"
-
   @send external replaceObj: (router, pathObj) => unit = "replace"
 }
 
