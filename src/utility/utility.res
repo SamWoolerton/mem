@@ -1,4 +1,4 @@
-let getChunks = str => {
+let getChunksFromText = str => {
   open Js.Array2
   let nonEmpty = s => s != ""
 
@@ -7,4 +7,8 @@ let getChunks = str => {
   ->map(Js.Option.getWithDefault(""))
   ->map(String.trim)
   ->filter(nonEmpty)
+}
+
+let getChunksFromVerses = verses => {
+  ""
 }

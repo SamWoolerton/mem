@@ -22,7 +22,7 @@ let default = (props: props): React.element => {
 
   let content = React.createElement(component, pageProps)
 
-  <MainLayout> content </MainLayout>
+  <MainLayout> <Recoil.RecoilRoot> content </Recoil.RecoilRoot> </MainLayout>
 
   // let router = Next.Router.useRouter()
   // switch router.route {

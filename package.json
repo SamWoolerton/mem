@@ -15,7 +15,9 @@
     "next": "10.2.0",
     "next-pwa": "^5.2.21",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "recoil": "^0.3.1",
+    "rescript-recoil": "^1.0.0"
   },
   "devDependencies": {
     "@rescript/react": "^0.10.1",
