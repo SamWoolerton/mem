@@ -55,6 +55,7 @@ async function main() {
   // console.log("verses", verses)
   console.log("Word count", wordCount)
   console.log("Chunks", chunks)
+  console.log("Full text", fullText)
 }
 
 main()
