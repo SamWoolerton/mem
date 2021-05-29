@@ -9,5 +9,5 @@ type passage = {
   chapter: int,
   start_verse: int,
   end_verse: int,
-  verses: list<verse>,
+  verses: array<verse>,
 }

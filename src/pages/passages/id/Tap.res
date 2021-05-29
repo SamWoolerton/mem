@@ -1,15 +1,27 @@
 open Js.Array2
 
 let default = () => {
-  let passageText = Recoil.useRecoilValue(State.passages)
-
-  let chunks = Utility.getChunksFromText(passageText)
-
-  let (counter, setCounter) = React.useState(_ => 0)
-
   let router = Next.Router.useRouter()
 
   let pageId = Js.Dict.unsafeGet(router.query, "id")
+
+  // TODO: get this to compile; no idea why it won't
+
+  // let parsedPageId = Belt.Int.fromString(pageId)
+
+  // let idOrDefault = Js.Option.default(1, parsedPageId)
+
+  let passage = Recoil.useRecoilValue(State.passages)->Utility.getPassageById(1)
+
+  let chunks = switch passage {
+  // TODO: handle this better; needs to redirect to an error state, but handled gracefully
+
+  | None => []
+
+  | Some(p) => Utility.getChunksFromPassage(p)
+  }
+
+  let (counter, setCounter) = React.useState(_ => 0)
 
   let backlink = contents => <Next.Link href={`/passages/${pageId}`}> <a> contents </a> </Next.Link>
 
