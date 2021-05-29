@@ -2,6 +2,8 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import Link from "next/link";
+import * as Router from "next/router";
 
 function $$default(param) {
   var chunks = [
@@ -21,22 +23,32 @@ function $$default(param) {
       });
   var setCounter = match[1];
   var counter = match[0];
+  var router = Router.useRouter();
+  var pageId = router.query["id"];
+  var backlink = function (contents) {
+    return React.createElement(Link, {
+                href: "/passages/" + pageId,
+                children: React.createElement("a", undefined, contents)
+              });
+  };
+  var doneButton = counter >= chunks.length ? backlink("Return to passage") : null;
   var onClick = function (param) {
     return Curry._1(setCounter, (function (prev) {
                   return prev + 1 | 0;
                 }));
   };
-  return React.createElement("div", undefined, React.createElement("h1", {
+  return React.createElement("div", {
+              className: "h-full",
+              onClick: onClick
+            }, backlink(React.createElement("div", undefined, "Back")), React.createElement("h1", {
                   className: "text-3xl font-semibold"
-                }, "Tap through passage"), React.createElement("div", undefined, String(counter)), React.createElement("button", {
-                  onClick: onClick
-                }, "Click me"), React.createElement("div", undefined, chunks.filter(function (_chunk, index) {
+                }, "Tap through passage"), React.createElement("div", undefined, chunks.filter(function (_chunk, index) {
                         return index <= counter;
                       }).map(function (chunk) {
                       return React.createElement("span", {
                                   key: chunk
                                 }, chunk);
-                    })));
+                    })), doneButton);
 }
 
 export {
