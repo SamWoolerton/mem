@@ -1,11 +1,9 @@
 open Js.Array2
 
 let default = () => {
+  let passage = Hooks.usePassage()
   let router = Next.Router.useRouter()
-  let passages = Recoil.useRecoilValue(State.passages)
   let (counter, setCounter) = React.useState(_ => 0)
-
-  let passage = Utility.getPassageForPage(router, passages)
 
   switch passage {
   | None => {

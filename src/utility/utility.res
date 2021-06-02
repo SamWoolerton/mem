@@ -43,7 +43,6 @@ let getChunksFromPassage = (passage: Model.passage) => {
   passage->getTextFromPassage->getChunksFromText
 }
 
-// if anything goes wrong, redirect to the passages list
 let getPassageForPage = (router: Next.Router.router, passages: array<Model.passage>) => {
   open Belt
 
