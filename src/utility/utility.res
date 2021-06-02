@@ -21,3 +21,12 @@ let getChunksFromPassage = (passage: Model.passage) => {
 let getPassageById = (passages: array<Model.passage>, id: int) => {
   passages->find(p => p.id == id)
 }
+
+// if anything goes wrong, redirect to the passages list
+let getPassageForPage = (router: Next.Router.router, passages: array<Model.passage>) => {
+  open Belt
+
+  Js.Dict.get(router.query, "id")
+  ->Option.flatMap(Belt.Int.fromString)
+  ->Option.flatMap(id => getPassageById(passages, id))
+}
