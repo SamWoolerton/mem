@@ -3,6 +3,7 @@ let default_passages: array<Model.passage> = [
     id: 1,
     book: "Genesis",
     chapter: 1,
+    // TODO: update query so this is the verse number, not verse ID
     start_verse: 31104,
     end_verse: 31114,
     verses: [
