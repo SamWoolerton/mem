@@ -50,3 +50,17 @@ let getPassageForPage = (router: Next.Router.router, passages: array<Model.passa
   ->Option.flatMap(Belt.Int.fromString)
   ->Option.flatMap(id => getPassageById(passages, id))
 }
+
+module Array = {
+  let replaceAtIndex = (
+    arr: array<'a>,
+    fromIndex: int,
+    replaceNumber: int,
+    toInsert: array<'a>,
+  ) => {
+    open Belt
+    let before = arr->Array.keepWithIndex((_item, index) => index < fromIndex)
+    let after = arr->Array.keepWithIndex((_item, index) => index >= fromIndex + replaceNumber)
+    Array.concatMany([before, toInsert, after])
+  }
+}
