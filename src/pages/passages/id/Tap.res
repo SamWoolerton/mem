@@ -30,7 +30,9 @@ let default = () => {
         <h1 className="text-3xl font-semibold"> {"Tap through passage"->React.string} </h1>
         <div>
           {filteri(chunks, (_chunk, index) => index <= counter)
-          ->map(chunk => <span key={chunk}> {React.string(`${chunk} `)} </span>)
+          ->mapi((chunk, i) =>
+            <span key={`${i->Belt.Int.toString}-${chunk}}`}> {React.string(`${chunk} `)} </span>
+          )
           ->React.array}
         </div>
         doneButton
