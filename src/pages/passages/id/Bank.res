@@ -26,15 +26,15 @@ let showVisible = (word: word) => {
   }
 }
 
+// let selectWordOption = key => {
+ 
+// }
+
 let showWordOptions = (word: word) => {
   switch word.visible {
-  | false => <span key={word.text}> {React.string(`${word.text} `)} <br /></span>
+  | false => <span><button key={word.text}> {React.string(`${word.text}`)}</button> <br /> </span>//onClick=selectWordOption(word.text)
   | true => <span />
   }
-}
-
-let notVisible = (word: word) => {
-  word.visible == false
 }
 
 let firstAndRandom = (words: Js.Array2.t<word>, maxNumber) => {
@@ -44,11 +44,11 @@ let firstAndRandom = (words: Js.Array2.t<word>, maxNumber) => {
     maxNumber
   } else {
     maxIndex
-  } - 1
+  }
 
   let wordSelection = [words[0]]
 
-  for index in 1 to safeMaxNumber {
+  for index in 1 to safeMaxNumber - 1 {
     let temp = wordSelection->push(words[Js.Math.random_int(0, maxIndex)])
   }
 
@@ -56,34 +56,29 @@ let firstAndRandom = (words: Js.Array2.t<word>, maxNumber) => {
 }
 
 let default = () => {
+  let passage = Hooks.usePassage()
   let router = Next.Router.useRouter()
-  let pageId = Js.Dict.unsafeGet(router.query, "id")
-  let parsedPageId = Belt.Int.fromString(pageId)
 
-  // TODO: don't just get with default; handle error state
-  let idOrDefault = Js.Option.default(1, parsedPageId)
-  let passage = Recoil.useRecoilValue(State.passages)->Utility.getPassageById(idOrDefault)
+  switch passage {
+    | None => {
+      Next.Router.push(router, "/passages")
 
-  let words = switch passage {
-  // TODO: handle this better; needs to redirect to an error state, but handled gracefully
-  | Some(p) => getWordsFromPassage(p)
-  | None => []
+      <div> {"Loading..."->React.string} </div>
+    }
+    | Some(p) => {
+      let words = getWordsFromPassage(p)
+      
+      <div>
+      <h1 className="text-3xl font-semibold"> {"Fill in the gaps"->React.string} </h1>
+      <p> {"Tap options to fill in the gaps"->React.string} </p>
+      <br />
+      <div> {words->map(showVisible)->React.array} </div>
+      <br />
+      <div> {words
+            ->filter(word => word.visible == false)
+            ->firstAndRandom(8)
+            ->map(showWordOptions)->React.array} </div>
+      </div>
+    }
   }
-
-  // TODO handle a tap on an invisible word.
-  // Compare the tapped word to the first invisible word in the words array.
-  // If the word matches, make it visible.
-  // If it doesn't, increment the error counter.
-
-  <div>
-    <h1 className="text-3xl font-semibold"> {"Fill in the gaps"->React.string} </h1>
-    <p> {"Tap options to fill in the gaps"->React.string} </p>
-    <br />
-    <div> {words->map(showVisible)->React.array} </div>
-    <br />
-    <div> {words
-          ->filter(notVisible)
-          ->firstAndRandom(1)
-          ->map(showWordOptions)->React.array} </div>
-  </div>
 }
