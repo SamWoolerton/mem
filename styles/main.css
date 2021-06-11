@@ -4,13 +4,17 @@
 @import "./_fonts.css";
 
 body {
-  @apply font-sans bg-white;
+  @apply font-sans bg-gray-100;
 }
 
 button.disabled {
   cursor: not-allowed;
 
   @apply bg-gray-200;
+}
+
+input {
+  @apply bg-gray-100;
 }
 
 @tailwind utilities;

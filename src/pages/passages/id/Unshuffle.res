@@ -119,11 +119,13 @@ let default = () => {
       // }
 
       <div className="h-full">
-        {backlink(<div> {"Back"->React.string} </div>)}
+        <div className="mt-2"> {backlink(<div> {"Back"->React.string} </div>)} </div>
         <h1 className="text-3xl font-semibold"> {"Unshuffle passage"->React.string} </h1>
-        <div>
+        <div className="mt-4">
           {mapi(chunks, (chunk, i) =>
-            <div key={`${i->Belt.Int.toString}-${chunk}}`}> {React.string(`${chunk} `)} </div>
+            <div key={`${i->Belt.Int.toString}-${chunk}}`} className="my-1 py-1 px-2 bg-white">
+              {React.string(`${chunk} `)}
+            </div>
           )->React.array}
         </div>
         // doneButton

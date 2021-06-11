@@ -46,7 +46,7 @@ let comp = login => {
     <label className="mt-2 block">
       <h3> {label->React.string} </h3>
       <input
-        className="bg-gray-100 w-full p-1"
+        className="w-full p-1"
         value=val
         onChange={evt => {
           ReactEvent.Form.preventDefault(evt)
@@ -58,7 +58,7 @@ let comp = login => {
     </label>
 
   <div className="flex bg-gray-100 h-full justify-center items-center">
-    <div className="bg-white p-10 max-w-full w-80">
+    <div className="bg-white p-10 sm:w-2/3 md:w-1/2">
       <h3 className="text-xl mb-2 font-bold"> {(login ? "Log in" : "Sign up")->React.string} </h3>
       {errorMessage !== ""
         ? <div className="px-3 py-1 bg-red-100 text-red-800"> {errorMessage->React.string} </div>

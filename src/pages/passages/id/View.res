@@ -9,22 +9,19 @@ let default = () => {
     }
   | Some(p) => {
       let activityLink = (stub, label) =>
-        <div>
-          <Next.Link href={`/passages/${p.id->Belt.Int.toString}/${stub}`}>
-            <a> {label->React.string} </a>
-          </Next.Link>
-        </div>
+        <Next.Link href={`/passages/${p.id->Belt.Int.toString}/${stub}`}>
+          <a className="bg-white px-3 py-2 m-2"> {label->React.string} </a>
+        </Next.Link>
 
       <div>
-        <h1 className="text-3xl font-semibold"> {"Passage details"->React.string} </h1>
-        <div>
+        <h1 className="text-3xl font-semibold mt-4">
           {`${p.book} ${p.chapter->Belt.Int.toString} `->React.string}
           {p.end_verse > p.start_verse
             ? <span>
                 {`${p.start_verse->Belt.Int.toString}:${p.end_verse->Belt.Int.toString}`->React.string}
               </span>
             : <span> {p.start_verse->Belt.Int.toString->React.string} </span>}
-        </div>
+        </h1>
         <div> {"TODO: Version: KJV"->React.string} </div>
         <div>
           {(p.verses
@@ -34,14 +31,16 @@ let default = () => {
           )
           ->Belt.Int.toString ++ " words")->React.string}
         </div>
-        <div className="mt-3">
+        <div className="mt-4">
           <h3 className="text-lg font-semibold"> {"Quick links"->React.string} </h3>
-          {activityLink("tap", "Tap")}
-          {activityLink("bank", "Word bank")}
-          {activityLink("unshuffle", "Unshuffle")}
-          {activityLink("type", "Type")}
+          <div className="flex -mx-2">
+            {activityLink("tap", "Tap")}
+            {activityLink("bank", "Word bank")}
+            {activityLink("unshuffle", "Unshuffle")}
+            {activityLink("type", "Type")}
+          </div>
         </div>
-        <div className="mt-3">
+        <div className="mt-4 bg-white p-3">
           <h3 className="text-lg font-semibold"> {"Passage text"->React.string} </h3>
           <div>
             {p.verses
