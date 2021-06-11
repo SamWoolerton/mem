@@ -66,7 +66,10 @@ let default = () => {
       let words = getWordsFromPassage(p)
 
       <div>
-        <h1 className="text-3xl font-semibold"> {"Fill in the gaps"->React.string} </h1>
+        <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}>
+          <a className="mt-2 block"> {"Back"->React.string} </a>
+        </Next.Link>
+        <h1 className="text-3xl font-semibold mt-1"> {"Fill in the gaps"->React.string} </h1>
         <p> {"Tap options to fill in the gaps"->React.string} </p>
         <br />
         <div> {words->map(showVisible)->React.array} </div>

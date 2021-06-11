@@ -26,8 +26,8 @@ let default = () => {
       }
 
       <div onClick className="h-full">
-        {backlink(<div> {"Back"->React.string} </div>)}
-        <h1 className="text-3xl font-semibold"> {"Tap through passage"->React.string} </h1>
+        {backlink(<div className="mt-2"> {"Back"->React.string} </div>)}
+        <h1 className="text-3xl font-semibold mt-1"> {"Tap through passage"->React.string} </h1>
         <div>
           {filteri(chunks, (_chunk, index) => index <= counter)
           ->mapi((chunk, i) =>

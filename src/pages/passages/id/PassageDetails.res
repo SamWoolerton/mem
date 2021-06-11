@@ -18,7 +18,7 @@ let default = () => {
         <Next.Link href="/passages">
           <a className="mt-2 block"> {"Back"->React.string} </a>
         </Next.Link>
-        <h1 className="text-3xl font-semibold mt-3">
+        <h1 className="text-3xl font-semibold mt-1">
           {`${p.book} ${p.chapter->Belt.Int.toString} `->React.string}
           {p.end_verse > p.start_verse
             ? <span>
