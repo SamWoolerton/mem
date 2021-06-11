@@ -11,10 +11,7 @@ let createWord = (str, index) => {
 }
 
 let getWordsFromPassage = (passage: Model.passage) => {
-  passage
-  ->Utility.getTextFromPassage
-  ->Utility.getCustomSplitText(%re("/\s+/"))
-  ->mapi(createWord)
+  passage->Utility.getTextFromPassage->Utility.getCustomSplitText(%re("/\s+/"))->mapi(createWord)
 }
 
 let showVisible = (word: word) => {
@@ -27,12 +24,12 @@ let showVisible = (word: word) => {
 }
 
 // let selectWordOption = key => {
- 
+
 // }
 
 let showWordOptions = (word: word) => {
   switch word.visible {
-  | false => <span><button key={word.text}> {React.string(`${word.text}`)}</button> <br /> </span>//onClick=selectWordOption(word.text)
+  | false => <span> <button key={word.text}> {React.string(word.text)} </button> <br /> </span> //onClick=selectWordOption(word.text)
   | true => <span />
   }
 }
@@ -60,24 +57,27 @@ let default = () => {
   let router = Next.Router.useRouter()
 
   switch passage {
-    | None => {
+  | Loading => <div> {"Loading..."->React.string} </div>
+  | None => {
       Next.Router.push(router, "/passages")
-
-      <div> {"Loading..."->React.string} </div>
+      <div> {"Passage not found"->React.string} </div>
     }
-    | Some(p) => {
+  | Some(p) => {
       let words = getWordsFromPassage(p)
-      
+
       <div>
-      <h1 className="text-3xl font-semibold"> {"Fill in the gaps"->React.string} </h1>
-      <p> {"Tap options to fill in the gaps"->React.string} </p>
-      <br />
-      <div> {words->map(showVisible)->React.array} </div>
-      <br />
-      <div> {words
-            ->filter(word => word.visible == false)
-            ->firstAndRandom(8)
-            ->map(showWordOptions)->React.array} </div>
+        <h1 className="text-3xl font-semibold"> {"Fill in the gaps"->React.string} </h1>
+        <p> {"Tap options to fill in the gaps"->React.string} </p>
+        <br />
+        <div> {words->map(showVisible)->React.array} </div>
+        <br />
+        <div>
+          {words
+          ->filter(word => word.visible == false)
+          ->firstAndRandom(8)
+          ->map(showWordOptions)
+          ->React.array}
+        </div>
       </div>
     }
   }

@@ -6,10 +6,10 @@ let default = () => {
   let (counter, setCounter) = React.useState(_ => 0)
 
   switch passage {
+  | Loading => <div> {"Loading..."->React.string} </div>
   | None => {
       Next.Router.push(router, "/passages")
-
-      <div> {"Loading..."->React.string} </div>
+      <div> {"Passage not found"->React.string} </div>
     }
   | Some(p) => {
       let chunks = Utility.getChunksFromPassage(p)

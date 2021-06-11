@@ -85,14 +85,14 @@ let handleMerge = (arr: array<chunk>, index: int) => {
 
 let default = () => {
   let passage = Hooks.usePassage()
-  // let router = Next.Router.useRouter()
+  let router = Next.Router.useRouter()
 
   switch passage {
-  | None =>
-    // TODO: does this render with no state the first time?
-    // Next.Router.push(router, "/passages")
-
-    <div> {"Loading..."->React.string} </div>
+  | Loading => <div> {"Loading..."->React.string} </div>
+  | None => {
+      Next.Router.push(router, "/passages")
+      <div> {"Passage not found"->React.string} </div>
+    }
   | Some(p) => {
       let chunks = Utility.getChunksFromPassage(p)
 

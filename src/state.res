@@ -1,4 +1,8 @@
-let default_passages: array<Model.passage> = [
+type status<'a> =
+  | Loading
+  | Stored('a)
+
+let default_passages: status<array<Model.passage>> = Stored([
   {
     id: 1,
     book: "Genesis",
@@ -53,7 +57,7 @@ let default_passages: array<Model.passage> = [
       },
     ],
   },
-]
+])
 
 let passages = Recoil.atom({
   key: "passages",
