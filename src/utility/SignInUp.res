@@ -4,10 +4,21 @@ let comp = login => {
   let (password, setPassword) = React.useState(() => "")
   let (errorMessage, setErrorMessage) = React.useState(() => "")
 
-  // TODO: on page load, check if already logged in and redirect to homepage immediately if so
+  let disabledSubmit = email === "" || password === ""
+
   let redirectToHomepage = () => Next.Router.push(router, "/")
 
-  let authMethod = _evt => {
+  React.useEffect0(() => {
+    if Supabase.Auth.isLoggedIn() {
+      redirectToHomepage()
+    }
+    None
+  })
+
+  let authMethod = evt => {
+    // form submission reloads the page
+    ReactEvent.Form.preventDefault(evt)
+
     let method = login ? Supabase.Auth.signIn : Supabase.Auth.signUp
     let res = method(
       Supabase.c,
@@ -52,19 +63,21 @@ let comp = login => {
       {errorMessage !== ""
         ? <div className="px-3 py-1 bg-red-100 text-red-800"> {errorMessage->React.string} </div>
         : React.null}
-      {input("Email", email, setEmail, "email")}
-      {input("Password", password, setPassword, "password")}
-      {login
-        ? <Next.Link href={"/auth/forgot-password"}>
-            <a className="text-sm text-gray-500 text-right underline w-full block pl-1 pb-1">
-              {"Forgot password?"->React.string}
-            </a>
-          </Next.Link>
-        : React.null}
-      // TODO: submit on enter
-      <button className="my-3 px-3 py-2 bg-blue-300 w-full" onClick=authMethod>
-        {(login ? "Log in" : "Sign up")->React.string}
-      </button>
+      <form onSubmit=authMethod>
+        {input("Email", email, setEmail, "email")}
+        {input("Password", password, setPassword, "password")}
+        {login
+          ? <Next.Link href={"/auth/forgot-password"}>
+              <a className="text-sm text-gray-500 text-right underline w-full block pl-1 pb-1">
+                {"Forgot password?"->React.string}
+              </a>
+            </Next.Link>
+          : React.null}
+        <button
+          className={"my-3 px-3 py-2 w-full bg-blue-300"} type_="submit" disabled=disabledSubmit>
+          {(login ? "Log in" : "Sign up")->React.string}
+        </button>
+      </form>
       <hr className="my-3" />
       <div className="mt-4 text-sm">
         {((login ? "Don't" : "Already") ++ " have an account? ")->React.string}

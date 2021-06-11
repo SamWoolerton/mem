@@ -1,9 +1,15 @@
-// TODO: Replace with an abstract type?
-type client = unit
+type client_auth = {currentUser: Js.Nullable.t<unit>}
+type client = {auth: client_auth}
 
 // E.g. createClient('https://xyzcompany.supabase.co', 'public-anon-key')
 @module("@supabase/supabase-js")
 external createClient: (string, string) => client = "createClient"
+
+// TODO: Not a security risk per notes in data/test_query.js, but still need to get these from env config
+let c = createClient(
+  "https://fohzkjgbdfvwyebncwoc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTMxNjk4MywiZXhwIjoxOTM2ODkyOTgzfQ.iWihw5UJztoCkP7njCcaqoVcAlPxZzo606yjY9-R0N4",
+)
 
 // TODO: is there a way to use the client defined below instead of having to pass it every time?
 module Auth = {
@@ -28,10 +34,6 @@ module Auth = {
   @send @scope(("auth", "api"))
   external resetPassword: (client, string, {"password": string}) => Js.Promise.t<string> =
     "updateUser"
-}
 
-// TODO: Not a security risk per notes in data/test_query.js, but still need to get these from env config
-let c = createClient(
-  "https://fohzkjgbdfvwyebncwoc.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTMxNjk4MywiZXhwIjoxOTM2ODkyOTgzfQ.iWihw5UJztoCkP7njCcaqoVcAlPxZzo606yjY9-R0N4",
-)
+  let isLoggedIn = () => c.auth.currentUser->Js.Nullable.toOption->Js.Option.isSome
+}

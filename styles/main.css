@@ -7,4 +7,10 @@ body {
   @apply font-sans bg-white;
 }
 
+button.disabled {
+  cursor: not-allowed;
+
+  @apply bg-gray-200;
+}
+
 @tailwind utilities;
