@@ -1,4 +1,4 @@
-let default = () => {
+let comp = login => {
   let router = Next.Router.useRouter()
   let (email, setEmail) = React.useState(() => "")
   let (password, setPassword) = React.useState(() => "")
@@ -7,8 +7,9 @@ let default = () => {
   // TODO: on page load, check if already logged in and redirect to homepage immediately if so
   let redirectToHomepage = () => Next.Router.push(router, "/")
 
-  let login = _evt => {
-    let res = Supabase.Auth.signIn(
+  let authMethod = _evt => {
+    let method = login ? Supabase.Auth.signIn : Supabase.Auth.signUp
+    let res = method(
       Supabase.c,
       {
         "email": email,
@@ -47,26 +48,28 @@ let default = () => {
 
   <div className="flex bg-gray-100 h-full justify-center items-center">
     <div className="bg-white p-10 max-w-full w-80">
-      <h3 className="text-xl mb-2 font-bold"> {"Log in"->React.string} </h3>
+      <h3 className="text-xl mb-2 font-bold"> {(login ? "Log in" : "Sign up")->React.string} </h3>
       {errorMessage !== ""
         ? <div className="px-3 py-1 bg-red-100 text-red-800"> {errorMessage->React.string} </div>
         : React.null}
       {input("Email", email, setEmail, "email")}
       {input("Password", password, setPassword, "password")}
-      <Next.Link href={"/auth/forgot-password"}>
-        <a className="text-sm text-gray-500 text-right underline w-full block pl-1 pb-1">
-          {"Forgot password?"->React.string}
-        </a>
-      </Next.Link>
+      {login
+        ? <Next.Link href={"/auth/forgot-password"}>
+            <a className="text-sm text-gray-500 text-right underline w-full block pl-1 pb-1">
+              {"Forgot password?"->React.string}
+            </a>
+          </Next.Link>
+        : React.null}
       // TODO: submit on enter
-      <button className="my-3 px-3 py-2 bg-blue-300 w-full" onClick=login>
-        {"Log in"->React.string}
+      <button className="my-3 px-3 py-2 bg-blue-300 w-full" onClick=authMethod>
+        {(login ? "Log in" : "Sign up")->React.string}
       </button>
       <hr className="my-3" />
       <div className="mt-4 text-sm">
-        {"Don't have an account? "->React.string}
-        <Next.Link href={"/auth/sign-up"}>
-          <a className="underline"> {"Sign up free"->React.string} </a>
+        {((login ? "Don't" : "Already") ++ " have an account? ")->React.string}
+        <Next.Link href={login ? "/auth/signup" : "/auth/login"}>
+          <a className="underline"> {(login ? "Sign up free" : "Log in here")->React.string} </a>
         </Next.Link>
       </div>
     </div>
