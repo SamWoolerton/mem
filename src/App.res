@@ -18,8 +18,16 @@ type props = {
 // It's only used within `pages/_app.js`
 
 let default = (props: props): React.element => {
-  let {component, pageProps} = props
+  // immediately redirect to login page if not logged in
+  let router = Next.Router.useRouter()
+  React.useEffect0(() => {
+    if !Supabase.Auth.isLoggedIn() {
+      Next.Router.push(router, "/auth/login")
+    }
+    None
+  })
 
+  let {component, pageProps} = props
   let content = React.createElement(component, pageProps)
 
   <MainLayout> <Recoil.RecoilRoot> content </Recoil.RecoilRoot> </MainLayout>

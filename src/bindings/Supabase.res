@@ -27,6 +27,21 @@ module Auth = {
   external signIn: (client, {"email": string, "password": string}) => Js.Promise.t<auth_response> =
     "signIn"
 
+  type signout_response = {error: Js.Nullable.t<auth_error>}
+  @send @scope("auth")
+  external signOut_: client => Js.Promise.t<signout_response> = "signOut"
+  let signOut = router => {
+    let res = signOut_(c)
+    Js.Promise.then_((val: signout_response) => {
+      switch val.error->Js.Nullable.toOption {
+      | None => Next.Router.push(router, "/auth/login")
+      // Just ignoring error messages for now
+      | Some(_err) => ()
+      }
+      Js.Promise.resolve()
+    }, res)->ignore
+  }
+
   @send @scope(("auth", "api"))
   external sendPasswordResetEmail: (client, string) => Js.Promise.t<string> =
     "resetPasswordForEmail"
