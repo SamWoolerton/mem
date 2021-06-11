@@ -11,8 +11,3 @@ type passage = {
   end_verse: int,
   verses: array<verse>,
 }
-
-type word = {
-  text: string,
-  visible: bool,
-}
