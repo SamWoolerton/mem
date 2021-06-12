@@ -33,7 +33,7 @@ let comp = login => {
       | None => redirectToHomepage()
       | Some(err) => setErrorMessage(_prev => err.message)
       }
-    })
+    })->ignore
   }
 
   // TODO: pull in either reform or formality to make this way cleaner
