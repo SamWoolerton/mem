@@ -9,7 +9,7 @@ let default = () => {
       <div className="mt-2">
         {passages
         ->Js.Array2.map(p =>
-          <Next.Link href={"/passages/" ++ p.id->Belt.Int.toString}>
+          <Next.Link href={"/passages/" ++ p.id->Belt.Int.toString} key={p.id->Belt.Int.toString}>
             <a className="bg-white block px-3 py-2">
               {`${p.book} ${p.chapter->Belt.Int.toString} `->React.string}
               {p.end_verse > p.start_verse

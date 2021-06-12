@@ -13,7 +13,13 @@ async function main() {
     from:start_verse (
       chapter (
         number,
-        book ( name )
+        book (
+          name
+          version (
+            code
+            language ( native_name )
+          )
+        )
       )
     )
   `)

@@ -1,5 +1,9 @@
 type client_auth = {currentUser: Js.Nullable.t<unit>}
 type client = {auth: client_auth}
+type response<'d, 'e> = {
+  error: Js.Nullable.t<'e>,
+  data: Js.Nullable.t<'d>,
+}
 
 // E.g. createClient('https://xyzcompany.supabase.co', 'public-anon-key')
 @module("@supabase/supabase-js")
@@ -14,10 +18,7 @@ let c = createClient(
 // TODO: is there a way to use the client defined below instead of having to pass it every time?
 module Auth = {
   type auth_error = {message: string, status: int}
-  type auth_response = {
-    error: Js.Nullable.t<auth_error>,
-    data: Js.Nullable.t<string>,
-  }
+  type auth_response = response<string, auth_error>
 
   @send @scope("auth")
   external signUp: (client, {"email": string, "password": string}) => Js.Promise.t<auth_response> =
@@ -50,4 +51,60 @@ module Auth = {
     "updateUser"
 
   let isLoggedIn = () => c.auth.currentUser->Js.Nullable.toOption->Js.Option.isSome
+}
+
+module Data = {
+  type client_from = unit
+
+  // can't define record types inline
+  type res_verse = {id: int, number: int}
+  type res_language = {native_name: string}
+  type res_version = {code: string, language: res_language}
+  type res_book = {name: string, version: res_version}
+  type res_chapter = {number: int, book: res_book}
+  type res_nested_passage = {
+    id: int,
+    start_verse: res_verse,
+    end_verse: res_verse,
+    from: res_chapter,
+  }
+
+  @send external from_: (client, string) => client_from = "from"
+  @send
+  external select_passages_: (
+    client_from,
+    string,
+  ) => Js.Promise.t<response<array<res_nested_passage>, string>> = "select"
+
+  // TODO: take Recoil atom argument
+  // TODO: set loading state at start and end
+  let getPassages = () => {
+    c
+    ->from_("Passages")
+    ->select_passages_(
+      // TODO: Windows breaks here and inserts exponentially icnreasing new lines; format better once that's fixed
+      "id, start_verse (id, number), end_verse (id, number), from:start_verse (chapter (number, book (name, version (code, language (native_name))))))",
+    )
+    ->Utility.Promise.map(({data}) => {
+      Js.Option.getWithDefault([], data->Js.Nullable.toOption)
+    })
+    // TODO: remove when done
+    ->Utility.Promise.trace
+    ->Utility.Promise.map(arr => {
+      arr->Js.Array2.map(({
+        id,
+        start_verse: {number: start_verse},
+        end_verse: {number: end_verse},
+        from: {number: chapter, book: {name: book}},
+      }): Model.passage => {
+        id: id,
+        book: book,
+        chapter: chapter,
+        start_verse: start_verse,
+        end_verse: end_verse,
+        // TODO: fetch verses separately
+        verses: [],
+      })
+    })
+  }
 }
