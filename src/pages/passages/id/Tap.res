@@ -28,7 +28,8 @@ let default = () => {
       <div onClick className="h-full">
         {backlink(<div className="mt-2"> {"Back"->React.string} </div>)}
         <h1 className="text-3xl font-semibold mt-1"> {"Tap through passage"->React.string} </h1>
-        <div>
+        // disable text selection so text doesn't get highlighted when repeatedly clicking/tapping
+        <div className="select-none">
           {filteri(chunks, (_chunk, index) => index <= counter)
           ->mapi((chunk, i) =>
             <span key={`${i->Belt.Int.toString}-${chunk}}`}> {React.string(`${chunk} `)} </span>
