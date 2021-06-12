@@ -14,7 +14,7 @@ module Navigation = {
           </a>
         </Link>
         <div className="flex w-2/3 justify-end">
-          <Link href="/"> <a className="px-3"> {React.string("Passages")} </a> </Link>
+          <Link href="/passages"> <a className="px-3"> {React.string("Passages")} </a> </Link>
           {Supabase.Auth.isLoggedIn()
             ? <div
                 className="cursor-pointer" onClick={evt => {Supabase.Auth.signOut(router)->ignore}}>

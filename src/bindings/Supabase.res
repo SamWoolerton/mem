@@ -35,7 +35,7 @@ module Auth = {
     let res = signOut_(c)
     Utility.Promise.tap(res, val => {
       switch val.error->Js.Nullable.toOption {
-      | None => Next.Router.push(router, "/auth/login")
+      | None => Next.Router.push(router, "/auth/password-reset-sent")
       // Just ignoring error messages for now
       | Some(_err) => ()
       }
@@ -43,11 +43,14 @@ module Auth = {
   }
 
   @send @scope(("auth", "api"))
-  external sendPasswordResetEmail: (client, string) => Js.Promise.t<string> =
-    "resetPasswordForEmail"
+  external sendPasswordResetEmail: (
+    client,
+    string,
+    {"redirectTo": string},
+  ) => Js.Promise.t<auth_response> = "resetPasswordForEmail"
 
   @send @scope(("auth", "api"))
-  external resetPassword: (client, string, {"password": string}) => Js.Promise.t<string> =
+  external resetPassword: (client, string, {"password": string}) => Js.Promise.t<auth_response> =
     "updateUser"
 
   let isLoggedIn = () => c.auth.currentUser->Js.Nullable.toOption->Js.Option.isSome

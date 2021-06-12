@@ -21,7 +21,8 @@ let default = (props: props): React.element => {
   // immediately redirect to login page if not logged in
   let router = Next.Router.useRouter()
   React.useEffect0(() => {
-    if !Supabase.Auth.isLoggedIn() {
+    let isAuthRoute = router.route->Js.String2.startsWith("/auth/")
+    if !Supabase.Auth.isLoggedIn() && !isAuthRoute {
       Next.Router.push(router, "/auth/login")
     }
     None
