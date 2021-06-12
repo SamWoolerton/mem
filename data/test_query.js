@@ -8,8 +8,8 @@ async function main() {
   )
 
   const res = await supabase.from("Passages").select(`
-    start_verse,
-    end_verse,
+    start_verse (id, number),
+    end_verse (id, number),
     from:start_verse (
       chapter (
         number,
@@ -25,8 +25,8 @@ async function main() {
   const meta = {
     book,
     chapter,
-    start_verse,
-    end_verse,
+    start_verse: start_verse.number,
+    end_verse: end_verse.number,
   }
 
   const { data: verses } = await supabase
@@ -37,8 +37,8 @@ async function main() {
         text
       `
     )
-    .gte("id", start_verse)
-    .lte("id", end_verse)
+    .gte("id", start_verse.id)
+    .lte("id", end_verse.id)
 
   const verseText = verses.map(({ text }) => text)
   const wordCount = verseText.reduce((acc, t) => acc + t.split(" ").length, 0)
