@@ -4,12 +4,13 @@ module Navigation = {
   @react.component
   let make = () => {
     let router = Next.Router.useRouter()
+    let darkMode = Hooks.usePrefersDarkMode()
 
-    <nav className="p-2 h-12 text-sm bg-white">
+    <nav className="p-2 h-12 text-sm bg-foreground">
       <div className="max-w-5xl lg:w-3/4 mx-auto flex justify-between items-center">
         <Link href="/">
           <a className="flex items-center w-1/3">
-            <img className="w-5" src="/static/mem.svg" />
+            <img className="w-5" src={`/static/icons/logo-${darkMode ? "white" : "black"}.svg`} />
             <span className="text-xl ml-2 align-middle font-semibold"> {React.string("Mem")} </span>
           </a>
         </Link>

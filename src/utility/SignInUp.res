@@ -52,24 +52,29 @@ let comp = login => {
       />
     </label>
 
-  <div className="flex bg-gray-100 h-full justify-center items-center">
-    <div className="bg-white p-10 sm:w-2/3 md:w-1/2">
+  <div className="flex h-full justify-center items-center">
+    <div className="bg-foreground p-10 sm:w-2/3 md:w-1/2">
       <h3 className="text-xl mb-2 font-bold"> {(login ? "Log in" : "Sign up")->React.string} </h3>
       {errorMessage !== ""
-        ? <div className="px-3 py-1 bg-red-100 text-red-800"> {errorMessage->React.string} </div>
+        ? <div className="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100">
+            {errorMessage->React.string}
+          </div>
         : React.null}
       <form onSubmit=authMethod>
         {input("Email", email, setEmail, "email")}
         {input("Password", password, setPassword, "password")}
         {login
           ? <Next.Link href={"/auth/forgot-password"}>
-              <a className="text-sm text-gray-500 text-right underline w-full block pl-1 pb-1">
+              <a
+                className="text-sm text-gray-500 dark:text-gray-400 text-right underline w-full block pl-1 pb-1">
                 {"Forgot password?"->React.string}
               </a>
             </Next.Link>
           : React.null}
         <button
-          className={"my-3 px-3 py-2 w-full bg-blue-300"} type_="submit" disabled=disabledSubmit>
+          className={"my-3 px-3 py-2 w-full bg-blue-300 dark:text-black"}
+          type_="submit"
+          disabled=disabledSubmit>
           {(login ? "Log in" : "Sign up")->React.string}
         </button>
       </form>

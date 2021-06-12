@@ -19,3 +19,23 @@ let usePassage = () => {
     }
   }
 }
+
+// JS implementation from https://usehooks.com/useDarkMode/
+let usePrefersDarkMode = () => {
+  // returns a list passed by reference, so when the colour scheme changes we can just check the same list again
+  let queryList = MatchMedia.query("(prefers-color-scheme: dark)")
+  let getValue = _ => queryList.matches
+  let (value, setValue) = React.useState(getValue)
+
+  React.useEffect0(() => {
+    let handler = _ => setValue(getValue)
+
+    // Note that this method has been deprecated in favour of `addEventListender("change", callback)
+    // Not switching yet as old Safari doesn't support it, and still 3% usage per CanIUse
+    MatchMedia.addListener(queryList, handler)
+
+    Some(() => MatchMedia.removeListener(queryList, handler))
+  })
+
+  value
+}

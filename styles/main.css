@@ -3,18 +3,32 @@
 
 @import "./_fonts.css";
 
+*,
+*::before,
+*::after {
+  @apply dark:text-gray-100;
+}
+
 body {
-  @apply font-sans bg-gray-100;
+  @apply font-sans bg-background;
 }
 
 button.disabled {
   cursor: not-allowed;
 
-  @apply bg-gray-200;
+  @apply bg-gray-200 dark:bg-gray-600;
 }
 
 input {
-  @apply bg-gray-100;
+  @apply bg-background;
+}
+
+.bg-background {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+.bg-foreground {
+  @apply bg-white dark:bg-gray-700;
 }
 
 @tailwind utilities;

@@ -10,7 +10,8 @@ module.exports = {
       safelist: ["html", "body"],
     },
   },
-  darkMode: false, // or 'media' or 'class'
+  // set to "class" for direct control
+  darkMode: "media",
   theme: {
     extend: {},
     /* Most of the time we customize the font-sizes,

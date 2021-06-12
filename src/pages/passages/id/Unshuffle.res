@@ -123,7 +123,7 @@ let default = () => {
         <h1 className="text-3xl font-semibold mt-1"> {"Unshuffle passage"->React.string} </h1>
         <div className="mt-4">
           {mapi(chunks, (chunk, i) =>
-            <div key={`${i->Belt.Int.toString}-${chunk}}`} className="my-1 py-1 px-2 bg-white">
+            <div key={`${i->Belt.Int.toString}-${chunk}}`} className="my-1 py-1 px-2 bg-foreground">
               {React.string(`${chunk} `)}
             </div>
           )->React.array}

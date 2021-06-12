@@ -11,7 +11,7 @@ let default = () => {
   | Some(p) => {
       let activityLink = (stub, label) =>
         <Next.Link href={`/passages/${p.id->Belt.Int.toString}/${stub}`}>
-          <a className="bg-white px-3 py-2 m-2"> {label->React.string} </a>
+          <a className="bg-foreground px-3 py-2 m-2"> {label->React.string} </a>
         </Next.Link>
 
       <div>
@@ -44,7 +44,7 @@ let default = () => {
             {activityLink("type", "Type")}
           </div>
         </div>
-        <div className="mt-4 bg-white p-3">
+        <div className="mt-4 bg-foreground p-3">
           <h3 className="text-lg font-semibold"> {"Passage text"->React.string} </h3>
           <div>
             {p.verses
