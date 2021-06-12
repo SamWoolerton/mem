@@ -28,17 +28,12 @@ let comp = login => {
       },
     )
 
-    // TODO: utility to map over promise
-    // TODO: utility to trace output for promise (and return `val` again)
-
-    // Note that we have to specify the type because this is data-last style
-    Js.Promise.then_((val: Supabase.Auth.auth_response) => {
+    Utility.Promise.tap(res, val => {
       switch val.error->Js.Nullable.toOption {
       | None => redirectToHomepage()
       | Some(err) => setErrorMessage(_prev => err.message)
       }
-      Js.Promise.resolve(1)
-    }, res)->ignore
+    })
   }
 
   // TODO: pull in either reform or formality to make this way cleaner

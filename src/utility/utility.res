@@ -43,3 +43,29 @@ module Array = {
     Array.concatMany([before, toInsert, after])
   }
 }
+
+module Promise = {
+  open Js
+
+  let map = (promise, fn) => {
+    Promise.then_(val => val->fn->Promise.resolve, promise)
+  }
+
+  let flatMap = (promise, fn) => {
+    Promise.then_(fn, promise)
+  }
+
+  let trace = promise => {
+    Promise.then_(val => {
+      Js.log(val)
+      Promise.resolve(val)
+    }, promise)
+  }
+
+  let tap = (promise, fn) => {
+    Promise.then_(val => {
+      fn(val)
+      Promise.resolve(val)
+    }, promise)
+  }
+}
