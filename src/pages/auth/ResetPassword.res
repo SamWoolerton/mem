@@ -3,6 +3,7 @@ let default = () => {
   let (password, setPassword) = React.useState(() => "")
   let (accessToken, setAccessToken) = React.useState(() => "")
   let (errorMessage, setErrorMessage) = React.useState(() => "")
+  let darkMode = Hooks.usePrefersDarkMode()
 
   let disabledSubmit = password === ""
 
@@ -50,6 +51,7 @@ let default = () => {
 
   <div className="flex h-full justify-center items-center">
     <div className="bg-foreground p-10 sm:w-2/3 md:w-1/2">
+      <SignInUp.AuthLogo darkMode />
       <h3 className="text-xl mb-2 font-bold"> {"Reset password"->React.string} </h3>
       {errorMessage !== ""
         ? <div className="px-3 py-1 bg-red-100 text-red-800"> {errorMessage->React.string} </div>

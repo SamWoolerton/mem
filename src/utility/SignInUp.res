@@ -1,8 +1,20 @@
+module AuthLogo = {
+  @react.component
+  let make = (~darkMode) =>
+    <div className="py-3 mb-4 flex justify-center items-center">
+      <div className="w-16 bg-blue-400 dark:bg-blue-300 p-5 rounded-full">
+        <img src={`/static/icons/logo-${darkMode ? "black" : "white"}.svg`} />
+      </div>
+      <div className="ml-3 text-center font-bold text-xl"> {"Mem"->React.string} </div>
+    </div>
+}
+
 let comp = login => {
   let router = Next.Router.useRouter()
   let (email, setEmail) = React.useState(() => "")
   let (password, setPassword) = React.useState(() => "")
   let (errorMessage, setErrorMessage) = React.useState(() => "")
+  let darkMode = Hooks.usePrefersDarkMode()
 
   let disabledSubmit = email === "" || password === ""
 
@@ -54,6 +66,7 @@ let comp = login => {
 
   <div className="flex h-full justify-center items-center">
     <div className="bg-foreground p-10 sm:w-2/3 md:w-1/2">
+      <AuthLogo darkMode />
       <h3 className="text-xl mb-2 font-bold"> {(login ? "Log in" : "Sign up")->React.string} </h3>
       {errorMessage !== ""
         ? <div className="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100">

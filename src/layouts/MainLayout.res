@@ -30,11 +30,15 @@ module Navigation = {
 
 @react.component
 let make = (~children) => {
+  let router = Next.Router.useRouter()
+  let isAuthRoute = router.route->Js.String2.startsWith("/auth/")
+
   let minWidth = ReactDOM.Style.make(~minWidth="20rem", ())
 
   <div style=minWidth>
     <div className="w-full text-gray-900 font-base h-screen flex flex-col">
-      <Navigation /> <main className="h-full max-w-5xl w-full lg:w-3/4 mx-auto"> children </main>
+      {!isAuthRoute ? <Navigation /> : React.null}
+      <main className="h-full max-w-5xl w-full lg:w-3/4 mx-auto"> children </main>
     </div>
   </div>
 }
