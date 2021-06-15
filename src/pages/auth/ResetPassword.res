@@ -58,8 +58,7 @@ let default = () => {
         : React.null}
       <form onSubmit=authMethod>
         {input("New password", password, setPassword, "password")}
-        <button
-          className={"my-3 px-3 py-2 w-full bg-blue-300"} type_="submit" disabled=disabledSubmit>
+        <button className={"my-3 w-full"} type_="submit" disabled=disabledSubmit>
           {"Reset password"->React.string}
         </button>
       </form>

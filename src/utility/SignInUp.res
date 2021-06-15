@@ -2,9 +2,10 @@ module AuthLogo = {
   @react.component
   let make = (~darkMode) =>
     <div className="py-3 mb-4 flex justify-center items-center">
+      <div className="h-18 w-16 bg-primary dark:bg-primary-light p-5 rounded-full">
         <img src={`/static/meta-icons/logo-${darkMode ? "black" : "white"}.svg`} />
       </div>
-      <div className="ml-3 text-center font-bold text-xl"> {"Mem"->React.string} </div>
+      <div className="ml-4 text-center font-bold text-xl"> {"Mem"->React.string} </div>
     </div>
 }
 
@@ -83,10 +84,7 @@ let comp = login => {
               </a>
             </Next.Link>
           : React.null}
-        <button
-          className={"my-3 px-3 py-2 w-full bg-blue-300 dark:text-black"}
-          type_="submit"
-          disabled=disabledSubmit>
+        <button className={"my-3 w-full"} type_="submit" disabled=disabledSubmit>
           {(login ? "Log in" : "Sign up")->React.string}
         </button>
       </form>

@@ -5,6 +5,14 @@ export default function HeadMeta(props) {
     <Head>
       <title>Mem: Memorise Bible verses quickly and easily</title>
 
+      {/* fonts */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
+
+      {/* metadata */}
       <meta name="application-name" content="Mem" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />

@@ -101,6 +101,9 @@ module Data = {
         from: {number: chapter, book: {name: book}},
       }): Model.passage => {
         id: id,
+        // TODO: this just gets it compile; update if using this instead of GraphQL
+        language: "English",
+        version: "KJV",
         book: book,
         chapter: chapter,
         start_verse: start_verse,

@@ -7,10 +7,20 @@
 *::before,
 *::after {
   @apply dark:text-gray-100;
+
+  /* when brand font isn't available, fall back to the system font stack */
+  font-family: "Open Sans", "-apple-system", BlinkMacSystemFont, "Avenir Next",
+    Avenir, "Segoe UI", "Helvetica Neue", "Helvetica", Ubuntu, Roboto, Noto,
+    Arial, sans-serif;
 }
 
 body {
   @apply font-sans bg-background;
+}
+
+button,
+.button {
+  @apply bg-primary dark:bg-primary-light text-white dark:text-black px-3 py-2 inline-block;
 }
 
 button.disabled {

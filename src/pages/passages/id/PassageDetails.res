@@ -26,8 +26,10 @@ let default = () => {
               </span>
             : <span> {p.start_verse->Belt.Int.toString->React.string} </span>}
         </h1>
-        <div> {"TODO: Version: KJV"->React.string} </div>
-        <div>
+        <div className="font-semibold text-xl text-gray-600 dark:text-gray-400 -mt-2">
+          {p.version->React.string}
+        </div>
+        <div className="mt-2">
           {(p.verses
           ->Js.Array2.reduce(
             (acc, next) => acc + Js.String.split(" ", next.text)->Js.Array2.length,
@@ -44,12 +46,17 @@ let default = () => {
             {activityLink("type", "Type")}
           </div>
         </div>
-        <div className="mt-4 bg-foreground p-3">
+        <div className="mt-4 bg-foreground px-4 py-3">
           <h3 className="text-lg font-semibold"> {"Passage text"->React.string} </h3>
-          <div>
+          <div className="mt-2">
             {p.verses
             ->Js.Array2.map(v =>
-              <span key={v.id->Belt.Int.toString}> {v.text->React.string} </span>
+              <span>
+                <span className="text-gray-600 dark:text-gray-300 text-sm font-bold mx-1">
+                  {` ${v.number->Belt.Int.toString} `->React.string}
+                </span>
+                <span key={v.id->Belt.Int.toString}> {v.text->React.string} </span>
+              </span>
             )
             ->React.array}
           </div>

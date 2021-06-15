@@ -9,7 +9,13 @@ module.exports = {
   // set to "class" for direct control
   darkMode: "media",
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#5DB9ED",
+        "primary-light": "#8DCDF2",
+        "gray-400": "#b8bdc6",
+      },
+    },
     /* Most of the time we customize the font-sizes,
      so we added the Tailwind default values here for
      convenience */

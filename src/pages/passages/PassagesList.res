@@ -10,13 +10,16 @@ let default = () => {
         {passages
         ->Js.Array2.map(p =>
           <Next.Link href={"/passages/" ++ p.id->Belt.Int.toString} key={p.id->Belt.Int.toString}>
-            <a className="bg-foreground block px-3 py-2">
-              {`${p.book} ${p.chapter->Belt.Int.toString} `->React.string}
-              {p.end_verse > p.start_verse
-                ? <span>
-                    {`${p.start_verse->Belt.Int.toString}:${p.end_verse->Belt.Int.toString}`->React.string}
-                  </span>
-                : <span> {p.start_verse->Belt.Int.toString->React.string} </span>}
+            <a className="px-4 py-3 block bg-foreground">
+              <div className="text-lg font-semibold">
+                {`${p.book} ${p.chapter->Belt.Int.toString} `->React.string}
+                {p.end_verse > p.start_verse
+                  ? <span>
+                      {`${p.start_verse->Belt.Int.toString}:${p.end_verse->Belt.Int.toString}`->React.string}
+                    </span>
+                  : <span> {p.start_verse->Belt.Int.toString->React.string} </span>}
+              </div>
+              <div className="text-gray-600 dark:text-gray-400"> {p.version->React.string} </div>
             </a>
           </Next.Link>
         )

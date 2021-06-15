@@ -57,7 +57,7 @@ let handlePairMerge = (
   first: option<chunk>,
   second: option<chunk>,
 ) => {
-  open Belt
+  // open Belt
 
   switch (first, second) {
   | (None, _) => arr
@@ -102,6 +102,7 @@ let default = () => {
         let current = Js.Option.getWithDefault([], get(acc, next_chunk))
         set(acc, next_chunk, append(current, next_index))
       }, Belt.Map.String.empty)
+      indices->ignore
 
       // state with shuffled chunks
       // let shuffled = chunks->Belt.Array.shuffle->map(c => (c, indices->Belt.Map.String.getExn(c)))
