@@ -2,8 +2,7 @@ module AuthLogo = {
   @react.component
   let make = (~darkMode) =>
     <div className="py-3 mb-4 flex justify-center items-center">
-      <div className="w-16 bg-blue-400 dark:bg-blue-300 p-5 rounded-full">
-        <img src={`/static/icons/logo-${darkMode ? "black" : "white"}.svg`} />
+        <img src={`/static/meta-icons/logo-${darkMode ? "black" : "white"}.svg`} />
       </div>
       <div className="ml-3 text-center font-bold text-xl"> {"Mem"->React.string} </div>
     </div>

@@ -20,43 +20,48 @@ export default function HeadMeta(props) {
       <meta name="msapplication-tap-highlight" content="no" />
       <meta name="theme-color" content="#5DB9ED" />
 
-      <link rel="apple-touch-icon" href="/static/icons/touch-icon-iphone.png" />
+      {/* icons */}
+      <link
+        rel="apple-touch-icon"
+        href="/static/meta-icons/touch-icon-iphone.png"
+      />
       <link
         rel="apple-touch-icon"
         sizes="152x152"
-        href="/static/icons/touch-icon-ipad.png"
+        href="/static/meta-icons/touch-icon-ipad.png"
       />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="/static/icons/touch-icon-iphone-retina.png"
+        href="/static/meta-icons/touch-icon-iphone-retina.png"
       />
       <link
         rel="apple-touch-icon"
         sizes="167x167"
-        href="/static/icons/touch-icon-ipad-retina.png"
+        href="/static/meta-icons/touch-icon-ipad-retina.png"
       />
 
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
-        href="/static/icons/32x32.png"
+        href="/static/meta-icons/32x32.png"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="16x16"
-        href="/static/icons/16x16.png"
+        href="/static/meta-icons/16x16.png"
       />
       <link rel="manifest" href="/static/manifest.json" />
       <link
         rel="mask-icon"
-        href="/static/icons/safari-pinned-tab.svg"
+        href="/static/meta-icons/safari-pinned-tab.svg"
         color="#5DB9ED"
       />
       <link rel="shortcut icon" href="/favicon.ico" />
 
+      {/* open graph */}
       <meta
         name="twitter:card"
         content="Memorise Bible verses quickly and easily"
@@ -69,7 +74,7 @@ export default function HeadMeta(props) {
       />
       <meta
         name="twitter:image"
-        content="https://getmem.netlify.app/static/icons/192x192.png"
+        content="https://getmem.netlify.app/static/meta-icons/192x192.png"
       />
 
       <meta property="og:type" content="website" />
@@ -82,9 +87,10 @@ export default function HeadMeta(props) {
       <meta property="og:url" content="https://getmem.netlify.app" />
       <meta
         property="og:image"
-        content="https://getmem.netlify.app/static/icons/192x192.png"
+        content="https://getmem.netlify.app/static/meta-icons/192x192.png"
       />
 
+      {/* manifest & PWA */}
       <link
         rel="apple-touch-startup-image"
         href="/static/images/apple_splash_2048.png"
