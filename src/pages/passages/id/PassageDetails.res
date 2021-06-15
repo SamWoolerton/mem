@@ -9,9 +9,23 @@ let default = () => {
       <div> {"Passage not found"->React.string} </div>
     }
   | Some(p) => {
-      let activityLink = (stub, label) =>
+      let activityLink = (stub, label, difficulty, icon) =>
         <Next.Link href={`/passages/${p.id->Belt.Int.toString}/${stub}`}>
-          <a className="bg-foreground px-3 py-2 m-2"> {label->React.string} </a>
+          <a
+            className="p-2 w-1/2 md:w-auto flex-grow"
+            style={ReactDOM.Style.make(~minWidth="12rem", ())}>
+            <div className="bg-foreground p-5 text-center">
+              <img
+                src={"/static/icons/" ++ icon ++ ".svg"}
+                className="w-20 block mx-auto bg-background rounded-full"
+              />
+              <div className="mt-2 text-lg"> {label->React.string} </div>
+              <div
+                className="mt-1 text-sm uppercase text-gray-600 dark:text-gray-400 font-semibold">
+                {difficulty->React.string}
+              </div>
+            </div>
+          </a>
         </Next.Link>
 
       <div>
@@ -39,11 +53,11 @@ let default = () => {
         </div>
         <div className="mt-4">
           <h3 className="text-lg font-semibold"> {"Quick links"->React.string} </h3>
-          <div className="flex -mx-2">
-            {activityLink("tap", "Tap")}
-            {activityLink("bank", "Word bank")}
-            {activityLink("unshuffle", "Unshuffle")}
-            {activityLink("type", "Type")}
+          <div className="-mx-2 flex flex-wrap">
+            {activityLink("tap", "Tap", "Beginner", "Tap")}
+            {activityLink("bank", "Word bank", "Easy", "Bank")}
+            {activityLink("unshuffle", "Unshuffle", "Medium", "Unshuffle")}
+            {activityLink("type", "Type", "Advanced", "Type")}
           </div>
         </div>
         <div className="mt-4 bg-foreground px-4 py-3">
