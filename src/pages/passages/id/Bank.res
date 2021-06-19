@@ -49,8 +49,6 @@ let getDistinctWords = (words: Js.Array2.t<word>, firstWord: word) => {
     } 
   }
 
-  Js.Console.log(words[0])
-  Js.Console.log(firstWord)
   distinctWords
 } 
 
@@ -61,15 +59,10 @@ let firstAndRandomUnique = (words: Js.Array2.t<word>, maxNumber) => {
                       ->Js.Array2.sortInPlaceWith((word1, word2) => word1.text < word2.text ? -1 : 1)
                       ->getDistinctWords(words[0])
 
-  let maxIndex = length(distinctWords) - 1
-  let safeMaxNumber = (length(distinctWords) >= maxNumber ? maxNumber - 1 : maxIndex) 
+  let maxIndex = length(distinctWords)
+  let safeMaxNumber = (maxIndex >= maxNumber ? maxNumber - 1 : maxIndex) 
 
   wordSelection->pushMany(distinctWords->Belt.Array.shuffle->Js.Array2.slice(~start=0, ~end_=safeMaxNumber))->ignore
-
-  Js.Console.log(words[0])
-  Js.Console.log(distinctWords)
-  Js.Console.log(wordSelection)
-
   wordSelection->Belt.Array.shuffle
 }
 
@@ -104,7 +97,7 @@ let default = () => {
       <span
         key={word.text} //{Belt.Int.toString(word.index)}
         onClick={_ => toggleVisiblity(word)}
-        className="bg-foreground px-2 py-1 mx-2 cursor-pointer">
+        className="button px-2 py-1 mx-2 cursor-pointer">
         {React.string(word.text)}
       </span>
     | true => <span />
@@ -118,6 +111,23 @@ let default = () => {
       <div> {"Passage not found"->React.string} </div>
     }
   | Some(p) =>
+    let backlink = contents =>
+      <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}> <a> contents </a> </Next.Link>
+    let wordSelection = if words->filter(word => !word.visible)->length > 0 {
+      // TODO: this probably should be fixed position at the bottom of the page instead
+      <div className="mt-2 p-4 bg-background">
+        <div className="-m-2 flex flex-wrap">
+          {words
+          ->filter(word => !word.visible)
+          ->firstAndRandomUnique(6)
+          ->map(showWordOptions)
+          ->React.array}
+        </div>
+      </div>
+    } else {
+      backlink(<div className="button"> {"Return to passage"->React.string} </div>)
+    }
+      
     <div>
       <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}>
         <a className="mt-2 block"> {"Back"->React.string} </a>
@@ -126,17 +136,8 @@ let default = () => {
       <p> {"Tap options to fill in the gaps"->React.string} </p>
       <div className="mt-4 px-5 py-4 bg-foreground">
         <div> {words->map(showVisible)->React.array} </div>
-        // TODO: this probably should be fixed position at the bottom of the page instead
-        <div className="mt-2 p-4 bg-background">
-          <div className="-m-2 flex flex-wrap">
-            {words
-            ->filter(word => !word.visible)
-            ->firstAndRandomUnique(6)
-            ->map(showWordOptions)
-            ->React.array}
-          </div>
-        </div>
       </div>
+      wordSelection
     </div>
   }
 }
