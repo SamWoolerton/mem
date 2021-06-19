@@ -8,38 +8,69 @@ type word = {
 
 let createWord = (text, index) => {
   // Make the first word and every fifth word after that invisible.
-  let word: word = {index: index, text: text, visible: index !== 0 && mod(index, 5) !== 0}
-  word
+  {index: index, text: text, visible: index !== 0 && mod(index, 5) !== 0}
 }
 
 let getWordsFromPassage = (passage: Model.passage) => {
-  passage->Utility.getTextFromPassage->Utility.getCustomSplitText(%re("/\s+/"))->mapi(createWord)
+  passage
+  ->Utility.getTextFromPassage
+  ->Utility.getCustomSplitText(%re("/\s+/"))
+  ->mapi(createWord)
+}
+
+let getUnderscoreString = string => {
+  string
+  ->Js.String2.replaceByRe(%re("/.(?=.*)/g"), "_")
+  ->Js.String2.concat(" ")
+  ->React.string
 }
 
 let showVisible = (word: word) => {
   switch word.visible {
   // TODO highlight the first visible word.
+  // TODO make space after the hidden word use the standard formatting.
   | true => <span key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
-  // TODO make each gap have an equal number of _ chars to chars in the word being hidden.
   | false =>
-    <span key={Belt.Int.toString(word.index)} className="bg-background">
-      {React.string(`_____`)}
+    <span key={Belt.Int.toString(word.index)} className="bg-background"> 
+      {getUnderscoreString(word.text)}
     </span>
   }
 }
 
-let firstAndRandom = (words: Js.Array2.t<word>, maxNumber) => {
-  let maxIndex = length(words) - 1
-  let safeMaxNumber = length(words) >= maxNumber ? maxNumber : maxIndex
-  let wordSelection = [words[0]]
+let getDistinctWords = (words: Js.Array2.t<word>, firstWord: word) => {
+  let distinctWords = []
+  for index in 0 to words->length - 1 {
+    let addWord = words[index]
+    let lastText = distinctWords->length > 0 ? distinctWords[distinctWords->length - 1].text : "" 
 
-  for index in 1 to safeMaxNumber - 1 {
-    let temp = wordSelection->push(words[Js.Math.random_int(0, maxIndex)])
-    index->ignore
-    temp->ignore
+    switch addWord.text != lastText && addWord.text != firstWord.text {
+      | true => distinctWords->push(addWord)->ignore
+      | _ => ()
+    } 
   }
 
-  wordSelection
+  Js.Console.log(words[0])
+  Js.Console.log(firstWord)
+  distinctWords
+} 
+
+let firstAndRandomUnique = (words: Js.Array2.t<word>, maxNumber) => {
+  let wordSelection = [words[0]]
+  let distinctWords = words
+                      ->Js.Array2.slice(~start=1, ~end_=words->length)
+                      ->Js.Array2.sortInPlaceWith((word1, word2) => word1.text < word2.text ? -1 : 1)
+                      ->getDistinctWords(words[0])
+
+  let maxIndex = length(distinctWords) - 1
+  let safeMaxNumber = (length(distinctWords) >= maxNumber ? maxNumber - 1 : maxIndex) 
+
+  wordSelection->pushMany(distinctWords->Belt.Array.shuffle->Js.Array2.slice(~start=0, ~end_=safeMaxNumber))->ignore
+
+  Js.Console.log(words[0])
+  Js.Console.log(distinctWords)
+  Js.Console.log(wordSelection)
+
+  wordSelection->Belt.Array.shuffle
 }
 
 let default = () => {
@@ -63,8 +94,7 @@ let default = () => {
         ? {index: item.index, text: item.text, visible: true}
         : item
     )
-    Js.log(newArr)
-    Js.log(newArr[0]) //
+
     updateWords(_prev => newArr)
   }
 
@@ -72,7 +102,7 @@ let default = () => {
     switch word.visible {
     | false =>
       <span
-        key={word.text}
+        key={word.text} //{Belt.Int.toString(word.index)}
         onClick={_ => toggleVisiblity(word)}
         className="bg-foreground px-2 py-1 mx-2 cursor-pointer">
         {React.string(word.text)}
@@ -101,7 +131,7 @@ let default = () => {
           <div className="-m-2 flex flex-wrap">
             {words
             ->filter(word => !word.visible)
-            ->firstAndRandom(8)
+            ->firstAndRandomUnique(6)
             ->map(showWordOptions)
             ->React.array}
           </div>
