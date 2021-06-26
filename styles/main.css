@@ -41,4 +41,11 @@ input {
   @apply bg-white dark:bg-gray-700;
 }
 
+.footer-panel {
+  position:sticky;
+  left:2;
+  bottom:0;
+  right:0;
+}
+
 @tailwind utilities;

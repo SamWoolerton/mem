@@ -115,7 +115,7 @@ let default = () => {
       <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}> <a> contents </a> </Next.Link>
     let wordSelection = if words->filter(word => !word.visible)->length > 0 {
       // TODO: this probably should be fixed position at the bottom of the page instead
-      <div className="mt-2 p-4 bg-background">
+      <div className="mt-2 p-4 bg-background footer-panel">
         <div className="-m-2 flex flex-wrap">
           {words
           ->filter(word => !word.visible)
@@ -127,7 +127,7 @@ let default = () => {
     } else {
       backlink(<div className="button"> {"Return to passage"->React.string} </div>)
     }
-      
+       
     <div>
       <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}>
         <a className="mt-2 block"> {"Back"->React.string} </a>
