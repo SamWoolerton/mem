@@ -30,6 +30,10 @@ let getChunksFromPassage = (passage: Model.passage) => {
   passage->getTextFromPassage->getCustomSplitText(%re("/(.+?[\.,!;:])\s/"))
 }
 
+let getWordsFromPassage = (passage: Model.passage) => {
+  passage->getTextFromPassage->getCustomSplitText(%re("/\s+/"))
+}
+
 module Array = {
   let replaceAtIndex = (
     arr: array<'a>,

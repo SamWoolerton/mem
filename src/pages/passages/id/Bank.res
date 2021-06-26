@@ -12,17 +12,11 @@ let createWord = (text, index) => {
 }
 
 let getWordsFromPassage = (passage: Model.passage) => {
-  passage
-  ->Utility.getTextFromPassage
-  ->Utility.getCustomSplitText(%re("/\s+/"))
-  ->mapi(createWord)
+  passage->Utility.getWordsFromPassage->mapi(createWord)
 }
 
 let getUnderscoreString = string => {
-  string
-  ->Js.String2.replaceByRe(%re("/.(?=.*)/g"), "_")
-  ->Js.String2.concat(" ")
-  ->React.string
+  string->Js.String2.replaceByRe(%re("/.(?=.*)/g"), "_")->Js.String2.concat(" ")->React.string
 }
 
 let showVisible = (word: word) => {
@@ -31,7 +25,7 @@ let showVisible = (word: word) => {
   // TODO make space after the hidden word use the standard formatting.
   | true => <span key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
   | false =>
-    <span key={Belt.Int.toString(word.index)} className="bg-background"> 
+    <span key={Belt.Int.toString(word.index)} className="bg-background">
       {getUnderscoreString(word.text)}
     </span>
   }
@@ -41,28 +35,31 @@ let getDistinctWords = (words: Js.Array2.t<word>, firstWord: word) => {
   let distinctWords = []
   for index in 0 to words->length - 1 {
     let addWord = words[index]
-    let lastText = distinctWords->length > 0 ? distinctWords[distinctWords->length - 1].text : "" 
+    let lastText = distinctWords->length > 0 ? distinctWords[distinctWords->length - 1].text : ""
 
     switch addWord.text != lastText && addWord.text != firstWord.text {
-      | true => distinctWords->push(addWord)->ignore
-      | _ => ()
-    } 
+    | true => distinctWords->push(addWord)->ignore
+    | _ => ()
+    }
   }
 
   distinctWords
-} 
+}
 
 let firstAndRandomUnique = (words: Js.Array2.t<word>, maxNumber) => {
   let wordSelection = [words[0]]
-  let distinctWords = words
-                      ->Js.Array2.slice(~start=1, ~end_=words->length)
-                      ->Js.Array2.sortInPlaceWith((word1, word2) => word1.text < word2.text ? -1 : 1)
-                      ->getDistinctWords(words[0])
+  let distinctWords =
+    words
+    ->Js.Array2.slice(~start=1, ~end_=words->length)
+    ->Js.Array2.sortInPlaceWith((word1, word2) => word1.text < word2.text ? -1 : 1)
+    ->getDistinctWords(words[0])
 
   let maxIndex = length(distinctWords)
-  let safeMaxNumber = (maxIndex >= maxNumber ? maxNumber - 1 : maxIndex) 
+  let safeMaxNumber = maxIndex >= maxNumber ? maxNumber - 1 : maxIndex
 
-  wordSelection->pushMany(distinctWords->Belt.Array.shuffle->Js.Array2.slice(~start=0, ~end_=safeMaxNumber))->ignore
+  wordSelection
+  ->pushMany(distinctWords->Belt.Array.shuffle->Js.Array2.slice(~start=0, ~end_=safeMaxNumber))
+  ->ignore
   wordSelection->Belt.Array.shuffle
 }
 
@@ -127,7 +124,7 @@ let default = () => {
     } else {
       backlink(<div className="button"> {"Return to passage"->React.string} </div>)
     }
-       
+
     <div>
       <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}>
         <a className="mt-2 block"> {"Back"->React.string} </a>
