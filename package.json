@@ -13,6 +13,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.11.17",
     "bs-webapi": "^0.19.1",
+    "fast-diff": "^1.2.0",
     "next": "10.2.0",
     "next-pwa": "^5.2.21",
     "re-dnd": "^4.0.0-beta.1",

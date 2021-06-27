@@ -1,9 +1,11 @@
-open Js.Array2
+type state =
+  | Attempt(string)
+  | Done(array<Diff.diff>)
 
 let default = () => {
   let passage = Hooks.usePassage()
   let router = Next.Router.useRouter()
-  let (counter, setCounter) = React.useState(_ => -1)
+  let (attempt, setAttempt) = React.useState(() => Attempt(""))
 
   switch passage {
   | Loading => <div> {"Loading..."->React.string} </div>
@@ -12,7 +14,9 @@ let default = () => {
       <div> {"Passage not found"->React.string} </div>
     }
   | Some(p) => {
-      let words = Utility.getWordsFromPassage(p)
+      let verses = p.verses->Js.Array2.map(v => v.text)
+      let passageText = Js.String2.concatMany("", verses)
+
       let backlink = contents =>
         <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}> <a> contents </a> </Next.Link>
       let doneButton = if true {
@@ -21,29 +25,49 @@ let default = () => {
         React.null
       }
 
-      let onKeyDown = evt => {
-        let key = ReactEvent.Keyboard.key(evt)          
-        let firstChar = words[counter+1]->Js.String2.charAt(0)
-        //ReactEvent.Keyboard.preventDefault(evt)
-
-        switch key == firstChar {
-          | true => setCounter(prev => prev + 1)
-          | false => Js.Console.log(key)
-        }
-      }
-
-      <div onKeyDown tabIndex=0 className="h-full">
-        <input type_="text" />
+      <div className="h-full">
         {backlink(<div className="mt-2"> {"Back"->React.string} </div>)}
         <h1 className="text-3xl font-semibold mt-1"> {"Type out passage"->React.string} </h1>
-        <div className="select-none mb-4">
-          {filteri(words, (_word, index) => index <= counter)
-          ->mapi((word, i) =>
-            <span key={`${i->Belt.Int.toString}-${word}}`}> {React.string(`${word} `)} </span>
-          )
-          ->React.array}
-        </div>
-        doneButton
+        {switch attempt {
+        | Attempt(s) =>
+          <div className="h-full">
+            <textarea
+              value=s
+              onChange={evt => {
+                ReactEvent.Form.preventDefault(evt)
+                let val = ReactEvent.Form.target(evt)["value"]
+                setAttempt(_prev => Attempt(val))
+              }}
+              className="block my-2 w-full h-2/3"
+            />
+            <button
+              onClick={_evt => {
+                setAttempt(_prev => Done(Diff.diff(s, passageText)))
+              }}>
+              {"Check"->React.string}
+            </button>
+          </div>
+        | Done(res) =>
+          <div>
+            <div>
+              {Js.Array2.mapi(res, (d, i) =>
+                <span key={i->Belt.Int.toString}>
+                  {switch d {
+                  | Diff.Remove(s) =>
+                    <span className="line-through bg-red-100 text-red-800">
+                      {s->React.string}
+                    </span>
+                  | Diff.Add(s) =>
+                    <span className="bg-red-200 text-red-800"> {s->React.string} </span>
+                  | Diff.Keep(s) =>
+                    <span className="bg-green-100 text-green-800"> {s->React.string} </span>
+                  }}
+                </span>
+              )->React.array}
+            </div>
+            doneButton
+          </div>
+        }}
       </div>
     }
   }
