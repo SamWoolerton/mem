@@ -30,9 +30,15 @@ let default = () => {
         <h1 className="text-3xl font-semibold mt-1"> {"Tap through passage"->React.string} </h1>
         // disable text selection so text doesn't get highlighted when repeatedly clicking/tapping
         <div className="select-none mb-4">
-          {filteri(chunks, (_chunk, index) => index <= counter)
+          {chunks
           ->mapi((chunk, i) =>
-            <span key={`${i->Belt.Int.toString}-${chunk}}`}> {React.string(`${chunk} `)} </span>
+            <span
+              key={`${i->Belt.Int.toString}-${chunk}}`}
+              className={"duration-100 " ++ (
+                i > counter ? " opacity-0 " : i < counter ? " opacity-60 " : " opacity-100 "
+              )}>
+              {React.string(`${chunk} `)}
+            </span>
           )
           ->React.array}
         </div>
