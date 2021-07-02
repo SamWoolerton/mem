@@ -53,7 +53,7 @@ let comp = login => {
     <label className="mt-2 block">
       <h3> {label->React.string} </h3>
       <input
-        className="w-full p-1"
+        className="w-full p-1 remove-autofill-colour"
         value=val
         onChange={evt => {
           ReactEvent.Form.preventDefault(evt)

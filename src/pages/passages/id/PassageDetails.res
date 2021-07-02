@@ -21,7 +21,7 @@ let default = () => {
               />
               <div className="mt-2 text-lg"> {label->React.string} </div>
               <div
-                className="mt-1 text-sm uppercase text-gray-600 dark:text-gray-400 font-semibold">
+                className="mt-1 text-sm uppercase text-gray-500 dark:text-gray-400 font-semibold">
                 {difficulty->React.string}
               </div>
             </div>

@@ -6,12 +6,14 @@
 *,
 *::before,
 *::after {
+  --fonts: "Open Sans", "-apple-system", BlinkMacSystemFont, "Avenir Next",
+    Avenir, "Segoe UI", "Helvetica Neue", "Helvetica", Ubuntu, Roboto, Noto,
+    Arial, sans-serif;
+
   @apply dark:text-gray-100;
 
   /* when brand font isn't available, fall back to the system font stack */
-  font-family: "Open Sans", "-apple-system", BlinkMacSystemFont, "Avenir Next",
-    Avenir, "Segoe UI", "Helvetica Neue", "Helvetica", Ubuntu, Roboto, Noto,
-    Arial, sans-serif;
+  font-family: var(--fonts);
 }
 
 body {
@@ -41,11 +43,23 @@ input {
   @apply bg-white dark:bg-gray-700;
 }
 
+/* Chrome autofill sets background colour, font, and font size; this is the only way to override it */
+/* Set such a long delay that it should never change */
+.remove-autofill-colour:-webkit-autofill,
+.remove-autofill-colour:-webkit-autofill:hover,
+.remove-autofill-colour:-webkit-autofill:focus,
+.remove-autofill-colour:-webkit-autofill:active,
+.remove-autofill-colour:-webkit-autofill::first-line {
+  -webkit-transition-delay: 99999s;
+  font-size: 1rem;
+  font-family: var(--fonts);
+}
+
 .footer-panel {
-  position:sticky;
-  left:2;
-  bottom:0;
-  right:0;
+  position: sticky;
+  left: 2;
+  bottom: 0;
+  right: 0;
 }
 
 @tailwind utilities;
