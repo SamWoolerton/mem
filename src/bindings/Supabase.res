@@ -35,7 +35,7 @@ module Auth = {
     let res = signOut_(c)
     Utility.Promise.tap(res, val => {
       switch val.error->Js.Nullable.toOption {
-      | None => Next.Router.push(router, "/auth/password-reset-sent")
+      | None => Next.Router.push(router, "/auth/login")
       // Just ignoring error messages for now
       | Some(_err) => ()
       }
