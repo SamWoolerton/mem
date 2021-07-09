@@ -15,19 +15,11 @@ let getWordsFromPassage = (passage: Model.passage) => {
   passage->Utility.getWordsFromPassage->mapi(createWord)
 }
 
-let getUnderscoreString = string => {
-  string->Js.String2.replaceByRe(%re("/.(?=.*)/g"), "_")->Js.String2.concat(" ")->React.string
-}
-
 let showVisible = (word: word) => {
   switch word.visible {
   // TODO highlight the first visible word.
-  // TODO make space after the hidden word use the standard formatting.
   | true => <span key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
-  | false =>
-    <span key={Belt.Int.toString(word.index)} className="bg-background">
-      {getUnderscoreString(word.text)}
-    </span>
+  | false => <span className={"text-opacity-0 border-b-2 select-none"} key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span> 
   }
 }
 
@@ -92,7 +84,7 @@ let default = () => {
     switch word.visible {
     | false =>
       <span
-        key={word.text} //{Belt.Int.toString(word.index)}
+        key={word.text} 
         onClick={_ => toggleVisiblity(word)}
         className="button px-2 py-1 mx-2 cursor-pointer">
         {React.string(word.text)}
@@ -111,7 +103,6 @@ let default = () => {
     let backlink = contents =>
       <Next.Link href={`/passages/${p.id->Belt.Int.toString}`}> <a> contents </a> </Next.Link>
     let wordSelection = if words->filter(word => !word.visible)->length > 0 {
-      // TODO: this probably should be fixed position at the bottom of the page instead
       <div className="mt-2 p-4 bg-background footer-panel">
         <div className="-m-2 flex flex-wrap">
           {words
