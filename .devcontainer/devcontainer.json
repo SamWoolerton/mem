@@ -16,7 +16,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
-		"chenglou92.rescript-vscode"
+		"chenglou92.rescript-vscode",
+		"bradlc.vscode-tailwindcss"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
