@@ -4,23 +4,16 @@ type word = {
   index: int,
   text: string,
   visible: bool,
+  firstHidden: bool,
 }
 
 let createWord = (text, index) => {
   // Make the first word and every fifth word after that invisible.
-  {index: index, text: text, visible: index !== 0 && mod(index, 5) !== 0}
+  {index: index, text: text, visible: index !== 0 && mod(index, 5) !== 0, firstHidden: index == 0}
 }
 
 let getWordsFromPassage = (passage: Model.passage) => {
   passage->Utility.getWordsFromPassage->mapi(createWord)
-}
-
-let showVisible = (word: word) => {
-  switch word.visible {
-  // TODO highlight the first visible word.
-  | true => <span key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
-  | false => <span className={"text-opacity-0 border-b-2 select-none"} key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span> 
-  }
 }
 
 let getDistinctWords = (words: Js.Array2.t<word>, firstWord: word) => {
@@ -55,6 +48,22 @@ let firstAndRandomUnique = (words: Js.Array2.t<word>, maxNumber) => {
   wordSelection->Belt.Array.shuffle
 }
 
+let getFirstHiddenIndex = (words: Js.Array2.t<word>) => {
+  switch Js.Array2.find(words, item => item.visible == false) {
+    | Some(item) => item.index
+    | _ => -1
+  }
+}
+
+let showVisible = (word: word) => {
+  switch (word.visible, word.firstHidden) {
+    // TODO Change this to use a standard colour instead of a custom one.
+    | (false, true) => <span className="text-opacity-0 border-b-2 select-none border-blue-400 animate-pulse" key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
+    | (false, false) => <span className="text-opacity-0 border-b-2 select-none" key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
+    | _ => <span key={Belt.Int.toString(word.index)}> {React.string(`${word.text} `)} </span>
+  }
+}
+
 let default = () => {
   let passage = Hooks.usePassage()
   let router = Next.Router.useRouter()
@@ -66,18 +75,21 @@ let default = () => {
   )
 
   let toggleVisiblity = (word: word) => {
-    let firstHiddenIndex = switch Js.Array2.find(words, item => item.visible == false) {
-    | Some(item) => item.index
-    | _ => -1
-    }
-
     let newArr = Js.Array2.map(words, item =>
-      item.index == firstHiddenIndex && item.text == word.text
-        ? {index: item.index, text: item.text, visible: true}
+      item.firstHidden && item.text == word.text
+        ? {index: item.index, text: item.text, visible: true, firstHidden: item.firstHidden}
         : item
     )
 
-    updateWords(_prev => newArr)
+    let nextHiddenIndex = newArr->getFirstHiddenIndex
+
+    let updNewArr = Js.Array2.map(newArr, item =>
+      item.index == nextHiddenIndex 
+        ? {index: item.index, text: item.text, visible: item.visible, firstHidden: true}
+        : item
+    )
+
+    updateWords(_prev => updNewArr)    
   }
 
   let showWordOptions = (word: word) => {
